@@ -1,10 +1,10 @@
 class Address
   attr_accessor :city, :state, :location
 
-  def initialize hash
-    @city = hash[:city]
-    @state = hash[:state]
-    @location = hash[:loc]
+  def initialize hash={}
+    @city = hash[:city] if !hash[:city].nil?
+    @state = hash[:state] if !hash[:state].nil?
+    @location = hash[:loc] if !hash[:loc].nil?
   end
 
   def mongoize
@@ -25,9 +25,13 @@ class Address
 
   def self.demongoize object
     case object
-    when nil then nil
-    when Hash then Address.new(city: object[:city], state: object[:state], loc: Point.new(object[:loc][:coordinates][0], object[:loc][:coordinates][1]))
-    when Address then object
+    when nil
+      nil
+    when Hash
+      loc = object[:loc].nil? ? nil : Point.new(object[:loc][:coordinates][0], object[:loc][:coordinates][1])
+      Address.new(city: object[:city], state: object[:state], loc: loc)
+    when Address
+      object
     end
   end
 
