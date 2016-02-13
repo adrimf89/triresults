@@ -18,6 +18,7 @@
         <th>Units</th>
         <th>Run</th>
         <th>Units</th>
+        <th></th>
       </tr>
     </thead>
     <tbody>
@@ -33,6 +34,7 @@
           <td><%= race.bike_units %></td>
           <td><%= race.run_distance %></td>
           <td><%= race.run_units %></td>
+          <td><%= link_to 'Register', racer_entries_path(@racer, :race_id => race.id), method: :post %></td>
         </tr>
       <% end %>
     </tbody>
